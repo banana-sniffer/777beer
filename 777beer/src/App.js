@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Brandon and Sean's Beer Journey</h1>
+        <h1>Brandon and Sean's Journey to 777 beers</h1>
         <p>They've tasted {beerCount} beers!</p>
         
         {/* Beer increment button */}
