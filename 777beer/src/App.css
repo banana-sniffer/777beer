@@ -1,0 +1,75 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #21a1f1;
+}
+
+h2 {
+  margin-top: 20px;
+  color: #ffdf00;
+}
+
+strong {
+  color: #ff6f61;
+}
+
+/* Flexbox container for the beer reveal section */
+.beer-reveal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* Left image (Sean) */
+.image-left {
+  width: 150px;
+  height: auto;
+  margin-right: 20px;
+}
+
+/* Right image (Brandon) */
+.image-right {
+  width: 150px;
+  height: auto;
+  margin-left: 20px;
+}
+
+/* Reveal button */
+.reveal-button {
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reveal-button:hover {
+  background-color: #e6584d;
+}
