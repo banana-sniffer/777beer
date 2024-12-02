@@ -11,25 +11,35 @@ import {
     TextFilter,
 } from '@cloudscape-design/components';
 import { columnDefinitions, getMatchesCountText, paginationLabels, collectionPreferencesProps, defaultPreferences } from './BeerTable-config';
-import beerList from './artifacts/beer_list.csv'; // Ensure this path matches your file location
+import { BeerRatingButtons } from './BeerRatingButtons'; // Import the new buttons component
+import beerList from './artifacts/beer_list.csv';
 import "@cloudscape-design/global-styles/index.css"
+
+// Ref: https://cloudscape.design/get-started/dev-guides/collection-hooks/
+
+// TODO: Need to figure out exporting the file itself
+// TODO: Adding a new beer itself to the list
+// TODO: Search by particular parent type of beer
+// TODO: Add in the beers you should know tag to some of these
 
 function EmptyState({ title, subtitle, action }) {
     return (
         <Box textAlign="center" color="inherit">
-        <Box variant="strong" textAlign="center" color="inherit">
-        {title}
-        </Box>
-        <Box variant="p" padding={{ bottom: 's' }} color="inherit">
-        {subtitle}
-        </Box>
-        {action}
+            <Box variant="strong" textAlign="center" color="inherit">
+                {title}
+            </Box>
+            <Box variant="p" padding={{ bottom: 's' }} color="inherit">
+                {subtitle}
+            </Box>
+            {action}
         </Box>
     );
 }
 
 export default function BeerTable() {
     const [beerData, setBeerData] = useState([]); // For table data
+    const [displayData, setDisplayData] = useState([]); // For displaying filtered data
+    const [currentView, setCurrentView] = useState('all'); // Track current view
     
     // Load and parse CSV file
     useEffect(() => {
@@ -51,13 +61,32 @@ export default function BeerTable() {
                     shawooComments: row['SHAWOOBOO COMMENTS'] || '',
                 }));
                 setBeerData(formattedData);
+                setDisplayData(formattedData);
             },
         });
     }, []);
+
+    // Function to get top 10 beers based on a specific rating
+    const getTopBeers = (ratingField) => {
+        // Convert rating to number and sort
+        const sortedBeers = [...beerData]
+            .filter(beer => !isNaN(parseFloat(beer[ratingField])))
+            .sort((a, b) => parseFloat(b[ratingField]) - parseFloat(a[ratingField]))
+            .slice(0, 10);
+        
+        setDisplayData(sortedBeers);
+        setCurrentView(ratingField);
+    };
+
+    // Reset to all beers
+    const resetToAllBeers = () => {
+        setDisplayData(beerData);
+        setCurrentView('all');
+    };
     
     const [preferences, setPreferences] = useState(defaultPreferences);
     const { items, actions, filteredItemsCount, collectionProps, filterProps, paginationProps } = useCollection(
-        beerData,
+        displayData,
         {
             filtering: {
                 empty: <EmptyState title="No beers :<(" action={<Button>Create instance</Button>} />,
@@ -74,36 +103,44 @@ export default function BeerTable() {
         }
     );
 
-    console.log('willtai items', items)
-
     return (
-        <Table
-        {...collectionProps}
-        header={
-            <Header
-            counter={`(${items.length})`}
-            >
-            Beers
-            </Header>
-        }
-        columnDefinitions={columnDefinitions}
-        columnDisplay={preferences.contentDisplay}
-        items={items}
-        pagination={<Pagination {...paginationProps} ariaLabels={paginationLabels} />}
-        filter={
-            <TextFilter
-            {...filterProps}
-            countText={getMatchesCountText(filteredItemsCount)}
-            filteringAriaLabel="Filter beers"
+        <>
+            <BeerRatingButtons 
+                onFinalRating={() => getTopBeers('final')}
+                onDngrRating={() => getTopBeers('danger')}
+                onShwnRating={() => getTopBeers('shown')}
+                onResetBeers={resetToAllBeers}
+                currentView={currentView}
             />
-        }
-        preferences={
-            <CollectionPreferences
-            {...collectionPreferencesProps}
-            preferences={preferences}
-            onConfirm={({ detail }) => setPreferences(detail)}
+
+            <Table
+            {...collectionProps}
+            header={
+                <Header
+                counter={`(${items.length})`}
+                >
+                {currentView === 'all' ? 'Beers' : `Top 10 Beers by ${currentView.toUpperCase()} Rating`}
+                </Header>
+            }
+            columnDefinitions={columnDefinitions}
+            columnDisplay={preferences.contentDisplay}
+            items={items}
+            pagination={<Pagination {...paginationProps} ariaLabels={paginationLabels} />}
+            filter={
+                <TextFilter
+                {...filterProps}
+                countText={getMatchesCountText(filteredItemsCount)}
+                filteringAriaLabel="Filter beers"
+                />
+            }
+            preferences={
+                <CollectionPreferences
+                {...collectionPreferencesProps}
+                preferences={preferences}
+                onConfirm={({ detail }) => setPreferences(detail)}
+                />
+            }
             />
-        }
-        />
+        </>
     );
 }

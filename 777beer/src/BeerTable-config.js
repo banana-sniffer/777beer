@@ -21,6 +21,13 @@ export const columnDefinitions = [
         isRowHeader: true,
     },
     { 
+        id: 'parentType',
+        header: 'Parent Type', 
+        cell: (item) => item.type,
+        ariaLabel: createLabelFunction('Parent Type'),
+        sortingField: 'parentType'
+    },
+    { 
         id: 'type',
         header: 'Type', 
         cell: (item) => item.type,
@@ -41,7 +48,7 @@ export const columnDefinitions = [
         ariaLabel: createLabelFunction('Origin'),
         sortingField: 'origin'
     },
-    { 
+    { // TODO: Need to fix the sorting on this
         id: 'abv',
         header: 'ABV', 
         cell: (item) => item.abv,
@@ -64,7 +71,7 @@ export const columnDefinitions = [
     },
     { 
         id: 'final',
-        header: 'Final', 
+        header: 'Rating', 
         cell: (item) => item.final,
         ariaLabel: createLabelFunction('Final'),
         sortingField: 'final'
@@ -83,16 +90,18 @@ export const columnDefinitions = [
     },
 ]
 
+// TODO: Rename the sean/brandon/final rating column
 export const defaultPreferences = {
     pageSize: 20,
     contentDisplay: [
         { id: 'name', visible: true },
+        { id: 'type', visible: false },
         { id: 'type', visible: true },
         { id: 'brand', visible: true },
         { id: 'origin', visible: true },
         { id: 'abv', visible: true },
-        { id: 'danger', visible: true },
-        { id: 'shown', visible: true },
+        { id: 'danger', visible: false },
+        { id: 'shown', visible: false },
         { id: 'final', visible: true },
         { id: 'dongerComments', visible: true },
         { id: 'shawooComments', visible: true },
