@@ -46,7 +46,7 @@ export const columnDefinitions = [
         header: 'Origin', 
         cell: (item) => item.origin,
         ariaLabel: createLabelFunction('Origin'),
-        sortingField: 'origin'
+        sortingField: 'origin',
     },
     { // TODO: Need to fix the sorting on this
         id: 'abv',
