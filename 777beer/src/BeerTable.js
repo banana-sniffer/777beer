@@ -23,7 +23,6 @@ import "@cloudscape-design/global-styles/index.css"
 // Ref: https://cloudscape.design/get-started/dev-guides/collection-hooks/
 
 // TODO: Need to figure out exporting the file itself
-// TODO: Adding a new beer itself to the list
 // TODO: Search by particular parent type of beer
 // TODO: Add in the beers you should know tag to some of these
 
