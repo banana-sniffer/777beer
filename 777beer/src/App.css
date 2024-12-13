@@ -73,3 +73,7 @@ strong {
 .reveal-button:hover {
   background-color: #e6584d;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

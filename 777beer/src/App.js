@@ -4,6 +4,7 @@ import Papa from 'papaparse';
 import './App.css';
 import beerList from './artifacts/beer_list.csv'; // Ensure this path matches your file location
 import BeerTable from './BeerTable'
+import TitleCard from './TitleCard';
 
 function App() {
   const [beerCount, setBeerCount] = useState(770); // Current dummy beer count
@@ -50,38 +51,9 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Brandon and Sean's Journey to 777 beers</h1>
-        <p>They've tasted {beerCount} beers!</p>
-
-        {/* Beer increment button */}
-        <button onClick={incrementBeer}>Taste another beer 🍻</button>
-
-        {/* Flexbox container for images and button */}
-        <div className="beer-reveal-container">
-          <img src="./artifacts/sean.png" alt="Sean" className="image-left" />
-
-          {beerCount === 777 && (
-            <div>
-              <button onClick={revealBeer} className="reveal-button">
-                Reveal the 777th Beer
-              </button>
-              <animated.div style={revealAnimation}>
-                {revealed && (
-                  <h2>
-                    The 777th Beer is... <strong>A work in progress</strong>! 🐉🍺
-                  </h2>
-                )}
-              </animated.div>
-            </div>
-          )}
-
-          <img src="./artifacts/brandon.png" alt="Brandon" className="image-right" />
-        </div>
-
-        <BeerTable/>
-      </header>
+    <div>
+      <TitleCard/>
+      <BeerTable/>
     </div>
   );
 }
